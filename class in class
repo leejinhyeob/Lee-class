@@ -1,0 +1,90 @@
+punleu [] aa;
+void setup() {
+  size(800, 600);
+  aa = new punleu[5];
+  for (int i=0; i<5; i++) {
+    aa[i] = new punleu();
+  }
+}
+void draw(){
+  background(0,255,255);  
+  for (int i=0; i<5; i++) {
+    aa[i].update();
+    aa[i].punleuShow();
+  }  
+}
+
+class Lee {
+  Lee() {
+    x = random(0,width);
+    y = random(0,height);
+    d = 200;
+    vx = random(-3,3); vy = random(-2,2);
+  };
+  Lee(float a, float b) {
+    x = a; y = b;
+    d = 50;
+    vx = vy = 0;
+  };
+  float x, y, d, vx, vy;
+  void act(){
+    x += vx;  y += vy;
+    if(x>width) x=0;
+    if(x<0) x=width;
+    if(y>height) y=0;
+    if(y<0) y = height;
+  }
+  void Life() {
+    fill(255);
+    square(x,y,d);
+    fill(0,0,0);
+    circle(x+10,y+15,d/10);
+    circle(x+20,y+15,d/10);
+    fill(255,0,0);
+    square(x+10,y+25,d/3);
+  }
+}
+class punleu {
+  // constructor
+  punleu() {
+    x = random(width);
+    y = random(height);
+    vx = random(-3,3);
+    vy = random(-2,2);
+    aa = new Lee[2];
+    for(int i=0;i<2;i++){
+      aa[i] = new Lee(x+i*200-100,y);
+    }
+  }
+  // member data
+  float x, y, vx, vy;
+  Lee [] aa;
+  // member function
+  void update(){
+   x += vx;
+   y += vy;
+   if(x<0 || x>width) vx = - vx;
+   if(y<0 || y>height) vy = - vy;   
+   for(int i=0;i<2;i++){
+      aa[i].x =x+i*240-120;
+      aa[i].y = y;
+   }
+  }
+  void punleuShow() {
+   for(int i=0;i<2;i++) aa[i].Life();
+    fill(100, 100, 255);
+    ellipse(x+25, y+30, 200, 210);
+    fill(255);
+    // eye
+    ellipse(x-15, y, 50, 50);
+    ellipse(x+55, y, 50, 50);
+    // black eye
+    fill(0);
+    ellipse(x-15, y, 20, 20);
+    ellipse(x+55, y, 20, 20);
+    fill(0, 255, 0);
+    //mouth
+    arc(x+25, y+75, 80, 50, 0, 3.14);
+    fill(0, 255, 0);
+  }
+}
