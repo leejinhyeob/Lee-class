@@ -1,0 +1,60 @@
+class Lee {
+  Lee() {
+    x = random(0,width);
+    y = random(0,height);
+    d = 100;
+    vx = random(-3,3); vy = random(-2,2);
+  };
+  Lee(float p, float q, float r) {
+    x = p;     y = q;     d = r;
+    vx = random(-3,3); vy = random(-2,2);
+  }
+  float x, y, d, vx, vy;
+  void collide(Lee b){
+    float dd;
+    dd = sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
+    if(dd < (d+b.d)/4){
+      vx = vy = 0;
+      b.vx = b.vy = 0;
+    }
+  }
+  void act(){
+    x += vx;  y += vy;
+    if(x>width) x=0;
+    if(x<0) x=width;
+    if(y>height) y=0;
+    if(y<0) y = height;
+  }
+  void Life() {
+    fill(255);
+    square(x,y,d);
+    fill(100,100,100);
+    square(x+15,y+15,d/4);
+    square(x+60,y+15,d/4);
+    fill(0,0,0);
+    circle(x+35,y+47,d/10);
+    circle(x+65,y+47,d/10);
+    fill(255,0,0);
+    square(x+33,y+70,d/3);
+  }
+}
+Lee [] aa;
+void setup() {
+  size(800, 600);
+  aa = new Lee[5];
+  for (int i=0; i<5; i++) {
+    aa[i] = new Lee();
+  }
+}
+void draw(){
+  background(0,255,255);
+  for (int i=0; i<5; i++) {
+    if(i != 4){
+      for(int j=i+1;j<5;j++){
+        aa[i].collide(aa[j]);
+      }
+    }
+    aa[i].act();
+    aa[i].Life();
+  }  
+}
