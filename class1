@@ -3,19 +3,21 @@ class Lee {
     x = random(0,width);
     y = random(0,height);
     d = 100;
+    c = 255;
     vx = random(-3,3); vy = random(-2,2);
   };
   Lee(float p, float q, float r) {
     x = p;     y = q;     d = r;
     vx = random(-3,3); vy = random(-2,2);
   }
-  float x, y, d, vx, vy;
+  float x, y, d, vx, vy,c;
   void collide(Lee b){
     float dd;
     dd = sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
     if(dd < (d+b.d)/4){
       vx = vy = 0;
       b.vx = b.vy = 0;
+      c=100;
     }
   }
   void act(){
@@ -26,7 +28,7 @@ class Lee {
     if(y<0) y = height;
   }
   void Life() {
-    fill(255);
+    fill(c,c,c);
     square(x,y,d);
     fill(100,100,100);
     square(x+15,y+15,d/4);
